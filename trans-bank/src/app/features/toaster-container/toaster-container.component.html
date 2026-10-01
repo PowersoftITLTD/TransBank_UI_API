@@ -1,0 +1,5 @@
+<div class="toast-stack">
+  @for (toast of toasts; track $index) {
+    <app-toaster [toast]="toast" [i]="$index" (remove)="remove($event)" />
+  }
+</div>

@@ -1,0 +1,106 @@
+<div class="login-shell flex h-screen">
+  <div class="brand-panel w-1/2">
+    <!-- Content for the first panel -->
+    <div class="img-wrapper">
+      <img src="../../../assets/FMS.jpg" alt="Logo" class="login-logo w-full h-auto object-cover" />
+    </div>
+  </div>
+  <div class="login-panel w-1/2 panel-2">
+    <!-- Content for the second panel -->
+    <div class="login-card">
+      <h2 class="text-left">
+        <span class="font-[650] login-account">
+          {{ isForgotEmail ? 'Forgot Password' : 'Login to your account' }}
+        </span>
+        <span *ngIf="!isForgotEmail" class="text-left text-[1rem] flex items-center back-col">
+          {{isForgotEmail ? 'No worries we ll send you reset instructions':'Welcome back! Please enter your  details'}}</span>
+      </h2>
+
+
+      <!-- Forgot Password Form -->
+      <button class="text-left back-col flex items-center" (click)="toggleForgotEmail()" *ngIf="isForgotEmail">
+        <span class="relative top-[0.1rem] pi pi-arrow-left mr-5"></span>
+        Back to login
+      </button>
+
+      <form [formGroup]="forgotPasswordForm" *ngIf="isForgotEmail" (ngSubmit)="onForgotEmailSubmit()">
+        <div class="container mx-auto ">
+          <div class="flex flex-col space-y-4 w-full max-w-md mx-auto">
+            <div class="flex flex-col space-y-2">
+              <label for="email" class="text-sm font-medium">Email</label>
+              <div class="flex w-full">
+                <input id="email" type="email" formControlName="email" pInputText
+                  class="w-4/5 px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                <button pButton type="submit" label="Send Password Reset Link" [disabled]="forgotPasswordForm.invalid"
+                  class="w-1/5 bg-white border border-gray-300 rounded-r-md text-gray-700 hover:bg-gray-100 disabled:bg-gray-200 disabled:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <!-- Arrow Icon -->
+                  <span class="text-2xl relative top-[-2px] arrow-color">→</span>
+                </button>
+              </div>
+
+              <!-- Validation Messages -->
+              <div *ngIf="f['email'].touched && f['email'].invalid" class="text-red-500 text-sm">
+                <small *ngIf="f['email'].errors?.['required']">Email is required.</small>
+                <small *ngIf="f['email'].errors?.['email']">Invalid email format.</small>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </form>
+
+
+      <!-- Login Form -->
+      <form [formGroup]="loginForm" *ngIf="!isForgotEmail" (ngSubmit)="onSubmit()">
+        <div class="container">
+          <!-- Username Field -->
+          <div class="p-field">
+            <label for="username">Username</label>
+            <input id="username" type="text" pInputText formControlName="username" />
+
+            <!-- Validation Messages -->
+            <div *ngIf="f['username'].touched && f['username'].invalid" class="error-message text-left">
+              <small *ngIf="f['username'].errors?.['required']">Username is required.</small>
+              <small *ngIf="f['username'].errors?.['minlength']">Username must be at least 4 characters long.</small>
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div class="p-field">
+            <label for="password">Password</label>
+            <input id="password" type="password" formControlName="password" />
+
+            <!-- Validation Messages -->
+            <div *ngIf="f['password'].touched && f['password'].invalid" class="error-message text-left">
+              <small *ngIf="f['password'].errors?.['required']">Password is required.</small>
+              <small *ngIf="f['password'].errors?.['minlength']">Password must be at least 6 characters long.</small>
+            </div>
+          </div>
+
+          <button pButton type="submit" label="Login" [disabled]="loginForm.invalid" class="p-mt-2"></button>
+        </div>
+
+        <!-- Forgot Password and Email OTP Links -->
+        <div class="flex justify-between mt-2 w-full">
+
+          <!-- Email OTP Link -->
+          <small href="javascript:void(0)" class="text-blue-600 hover:underline text-[1rem] font-[498] otp">
+            <button type="button">
+              <span>Email OTP</span>
+            </button>
+          </small>
+          <!-- Forgot Password Link -->
+          <small href="javascript:void(0)" class="text-blue-600 hover:underline text-[1rem] font-[498] f_pwd">
+            <button type="button" (click)="toggleForgotEmail()">
+              <span>Forgot password?</span>
+            </button>
+          </small>
+
+
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
